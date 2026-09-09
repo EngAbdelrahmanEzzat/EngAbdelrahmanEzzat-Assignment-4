@@ -42,7 +42,8 @@ class Program
         FindSessionIndex2(sessionNames);
         CopyAndModifySession(sessionNames);
 
-
+        DisplayDurationAnalysis(sessionDurations);
+        SortSessionDurations(sessionDurations);
 
     }
     static void DisplaySchedule(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
@@ -191,6 +192,74 @@ class Program
             Console.WriteLine(name);
         }
     }
+    static int GetTotalDuration(int[] sessionDurations)
+    {
+        int total = 0;
+        foreach (int duration in sessionDurations)
+        {
+            total += duration;
+        }
+        return total;
+    }
+
+    static double GetAverageDuration(int[] sessionDurations)
+    {
+        return (double)GetTotalDuration(sessionDurations) / sessionDurations.Length;
+    }
+
+    static int GetShortestDuration(int[] sessionDurations)
+    {
+        int shortest = sessionDurations[0];
+        foreach (int duration in sessionDurations)
+        {
+            if (duration < shortest)
+            {
+                shortest = duration;
+            }
+        }
+        return shortest;
+    }
+
+    static int GetLongestDuration(int[] sessionDurations)
+    {
+        int longest = sessionDurations[0];
+        foreach (int duration in sessionDurations)
+        {
+            if (duration > longest)
+            {
+                longest = duration;
+            }
+        }
+        return longest;
+    }
+    static void DisplayDurationAnalysis(int[] sessionDurations)
+    {
+        int total = GetTotalDuration(sessionDurations);
+        double average = GetAverageDuration(sessionDurations);
+        int shortest = GetShortestDuration(sessionDurations);
+        int longest = GetLongestDuration(sessionDurations);
+
+        Console.WriteLine("Duration Analysis:");
+        Console.WriteLine("-----------------");
+        Console.WriteLine($"Total Duration: {total} minutes");
+        Console.WriteLine($"Average Duration: {average} minutes");
+        Console.WriteLine($"Shortest Duration: {shortest} minutes");
+        Console.WriteLine($"Longest Duration: {longest} minutes");
+    }
+    static void SortSessionDurations(int[] sessionDurations)
+    {
+        int[] sortedDurations = new int[sessionDurations.Length];
+        Array.Copy(sessionDurations, sortedDurations, sessionDurations.Length);
+        Array.Sort(sortedDurations);
+
+        Console.WriteLine("Sorted Durations (ascending):");
+        Console.WriteLine("-----------------");
+        foreach (int duration in sortedDurations)
+        {
+            Console.WriteLine(duration);
+        }
+    }
+
 
 
 }
