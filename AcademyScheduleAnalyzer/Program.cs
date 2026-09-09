@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using static System.Collections.Specialized.BitVector32;
 
 namespace AcademyScheduleAnalyzer;
 class Program
@@ -32,6 +33,16 @@ class Program
 
         DisplaySchedule(sessionNames, sessionDates, sessionDurations);
         SearchSession(sessionNames, sessionDates, sessionDurations, "ArrAys");
+        SortSessionNames(sessionNames);
+        ReverseSessionNames(sessionNames);
+        FindSessionIndex(sessionNames);
+
+        CheckSessionExists(sessionNames);
+        FindSession(sessionNames);
+        FindSessionIndex2(sessionNames);
+        CopyAndModifySession(sessionNames);
+
+
 
     }
     static void DisplaySchedule(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
@@ -65,4 +76,121 @@ class Program
         }
         Console.WriteLine("Session not found.");
     }
+    static void SortSessionNames(string[] sessionNames)
+    {
+        string[] sortedNames=new string [sessionNames.Length];
+        Array.Copy(sessionNames, sortedNames, sessionNames.Length);
+        Array.Sort(sortedNames);
+        Console.WriteLine("Sorted Session Names:");
+        Console.WriteLine("-----------------");
+        foreach (string name in sortedNames)
+        {
+            Console.WriteLine(name);
+        }
+        Console.WriteLine();
+    }
+    static void ReverseSessionNames(string[] sessionNames)
+    {
+        string[] reversedNames = new string[sessionNames.Length];
+        Array.Copy(sessionNames, reversedNames, sessionNames.Length);
+        Array.Reverse(reversedNames);
+        Console.WriteLine("Reversed Session Names:");
+        Console.WriteLine("-----------------");
+        foreach (string name in reversedNames)
+        {
+            Console.WriteLine(name);
+        }
+        Console.WriteLine();
+    }
+    static void FindSessionIndex(string[] sessionNames)
+    {
+        Console.WriteLine("Enter The Session Name to Search:");
+        string searchTerm = Console.ReadLine()!;
+        for (int i = 0; i < sessionNames.Length; i++)
+        {
+            if (sessionNames[i].IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                Console.WriteLine($"Session found at index {i}");
+                return;
+            }
+        }
+        Console.WriteLine("Session not found.");
+    }
+    static void CheckSessionExists(string[] sessionNames)
+    {
+        Console.WriteLine("Enter The Session Name to Check:");
+        string searchTerm = Console.ReadLine() ?? "";
+
+        bool exists = Array.Exists(sessionNames, name =>
+            name.Equals(searchTerm, StringComparison.OrdinalIgnoreCase));
+
+        if (exists)
+        {
+            Console.WriteLine("Session exists.");
+        }
+        else
+        {
+            Console.WriteLine("Session does not exist.");
+        }
+    }
+    static void FindSession(string[] sessionNames)
+    {
+        Console.WriteLine("Enter part of the session name to find:");
+        string searchTerm = Console.ReadLine() ?? "";
+
+        string? result = Array.Find(sessionNames, name =>
+            name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+
+        if (result != null)
+        {
+            Console.WriteLine($"Found session: {result}");
+        }
+        else
+        {
+            Console.WriteLine("No matching session found.");
+        }
+    }
+    static void FindSessionIndex2(string[] sessionNames)
+    {
+        Console.WriteLine("Enter part of the session name to find its index:");
+        string searchTerm = Console.ReadLine() ?? "";
+
+        int index = Array.FindIndex(sessionNames, name =>
+            name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+
+        if (index >= 0)
+        {
+            Console.WriteLine($"Session found at index: {index}");
+        }
+        else
+        {
+            Console.WriteLine("Session not found.");
+        }
+    }
+    static void CopyAndModifySession(string[] sessionNames)
+    {
+        
+        string[] copiedNames = new string[sessionNames.Length];
+
+       
+        Array.Copy(sessionNames, copiedNames, sessionNames.Length);
+
+        
+        copiedNames[0] = "Modified Session Name"; // Modify the first element of the copied array
+
+
+        Console.WriteLine("Original array:");
+        foreach (string name in sessionNames)
+        {
+            Console.WriteLine(name);
+        }
+
+        Console.WriteLine("\nCopied array:");
+        foreach (string name in copiedNames)
+        {
+            Console.WriteLine(name);
+        }
+    }
+
+
 }
