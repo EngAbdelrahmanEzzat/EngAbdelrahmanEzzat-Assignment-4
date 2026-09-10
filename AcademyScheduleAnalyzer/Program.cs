@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using System.Text;
 using static System.Collections.Specialized.BitVector32;
 
 namespace AcademyScheduleAnalyzer;
@@ -44,7 +45,7 @@ class Program
 
         DisplayDurationAnalysis(sessionDurations);
         SortSessionDurations(sessionDurations);
-
+        
     }
     static void DisplaySchedule(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
     {
@@ -259,7 +260,98 @@ class Program
             Console.WriteLine(duration);
         }
     }
+    static void DisplaySessionDetails(string[] seessionNames, DateTime[] sessionDates, int[] sessionDurations, int index)
+    {
+        if (index >= 0 && index < seessionNames.Length)
+        {
+            Console.WriteLine($"Session Details for Index {index}:");
+            Console.WriteLine($"Name: {seessionNames[index]}");
+            Console.WriteLine($"Date: {sessionDates[index].ToString("dd MMMM yyyy")}");
+            Console.WriteLine($"StartTime: {sessionDates[index].ToString("hh:mm tt")}");
+            Console.WriteLine($"Duration: {sessionDurations[index]} minutes");
+        }
+        else
+        {
+            Console.WriteLine("Invalid index.");
+        }
+    }
+    static DateTime GetSessionEndTime(DateTime[] sessionDates, int[] sessionDurations, int index)
+    {
+       
+            return sessionDates[index].AddMinutes(sessionDurations[index]);
+       
+    }
 
+    static DateTime? ReadSessionDate()// Method to read a session date from user input
+    {
+        Console.WriteLine("Enter the session date (dd/MM/yyyy):");
+        string input = Console.ReadLine();
+        if (DateTime.TryParse(input, out DateTime sessionDate))
+        {
+            return sessionDate;
+        }
+        else
+        {
+            Console.WriteLine("Invalid date format.");
+            return null;
+        }
+    }
+    static string BuildReportUsingString(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
+    {
+        string report = "";
+        report += " Report (Using String)\n";
+        report += "-----------------\n";
+
+        for (int i = 0; i < sessionNames.Length; i++)
+        {
+            report += $"{i + 1}. {sessionNames[i]}\n";
+            report += $"Date: {sessionDates[i].ToString("dd MMMM yyyy")}\n";
+            report += $"StartTime: {sessionDates[i].ToString("hh:mm tt")}\n";
+            report += $"Duration: {sessionDurations[i]} minutes\n\n";
+        }
+
+        return report;
+    }
+    static string BuildReportUsingStringBuilder(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
+    {
+        StringBuilder reportBuilder = new StringBuilder();
+        reportBuilder.AppendLine("Report (Using StringBuilder)");
+        reportBuilder.AppendLine("-----------------");
+        for (int i = 0; i < sessionNames.Length; i++)
+        {
+            reportBuilder.AppendLine($"{i + 1}. {sessionNames[i]}");
+            reportBuilder.AppendLine($"Date: {sessionDates[i].ToString("dd MMMM yyyy")}");
+            reportBuilder.AppendLine($"StartTime: {sessionDates[i].ToString("hh:mm tt")}");
+            reportBuilder.AppendLine($"Duration: {sessionDurations[i]} minutes");
+            reportBuilder.AppendLine();
+        }
+        return reportBuilder.ToString();
+    }
+
+    static void ChangeValueUsingRef(ref int number)
+    {
+        number = number * 2;// This method changes the value of the number passed by reference
+    }
+    static bool FindSessionByName(string[] sessionNames, int[] sessionDurations, string sessionName, out int index, out int duration)
+    {
+        for (int i = 0; i < sessionNames.Length; i++)
+        {
+            if (sessionNames[i].Equals(sessionName, StringComparison.OrdinalIgnoreCase))
+            {
+                index = i;
+                duration = sessionDurations[i];
+                return true;
+            }
+        }
+        //دي لو احنا ملقناش اي حاجه بالاسم ده
+        index = -1;
+        duration = 0;
+        return false;
+    }
+    static void ModifyArrayElement(string[] sessionNames)
+    {
+        sessionNames[0] = "Modified Session Name"; // تعديل بدون ref
+    }
 
 
 }
