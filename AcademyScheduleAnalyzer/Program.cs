@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System.Text;
 using static System.Collections.Specialized.BitVector32;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AcademyScheduleAnalyzer;
 class Program
@@ -352,6 +353,36 @@ class Program
     {
         sessionNames[0] = "Modified Session Name"; // تعديل بدون ref
     }
+    static void CalculateTotalDuration(params int[] durations)
+    {
+        int total = 0;
+        foreach (int duration in durations)
+        {
+            total += duration;
+        }
+        Console.WriteLine($"Total Duration: {total} minutes");
+    }
+    static void SessionDateDetails(string sessionName, string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
+    {
+        for (int i = 0; i < sessionNames.Length; i++)
+        {
+            if (sessionNames[i].Equals(sessionName, StringComparison.OrdinalIgnoreCase))
+            {
+               
+                Console.WriteLine($"Date: {sessionDates[i].ToString("dd MMMM yyyy")}");
+                Console.WriteLine($"The Day is {sessionDates[i].Day}");
+                Console.WriteLine($"The Month is {sessionDates[i].Month}");
+                Console.WriteLine($"The Year is {sessionDates[i].Year}");
+                Console.WriteLine($"The Day of the Week is {sessionDates[i].DayOfWeek}");
+                Console.WriteLine($"The Start Time is {sessionDates[i].ToString("hh:mm tt")}");
+                Console.WriteLine($"The Duration is {sessionDurations[i]} minutes");
+                Console.WriteLine($"The End Time is {sessionDates[i].AddMinutes(sessionDurations[i]).ToString("hh:mm tt")}");
+                return;
+            }
+        }
+
+    }
+
 
 
 }
