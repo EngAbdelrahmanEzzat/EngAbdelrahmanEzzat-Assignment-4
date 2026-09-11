@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualBasic;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using static System.Collections.Specialized.BitVector32;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -381,6 +383,63 @@ class Program
             }
         }
 
+    }
+    static void DateDifference(string session1,string session2, DateTime[] sessionDates)//part 10
+    {
+        TimeSpan difference = sessionDates[1] - sessionDates[0];
+        Console.WriteLine($"Total Days between {session1} and {session2}: {difference.Days} days");
+        Console.WriteLine($"Total Hours between {session1} and {session2}: {difference.TotalHours} hours");
+    
+    }
+    static void PastandUpcomingSessions(string[] Sessions, DateTime[] dates)
+    {
+        for (int i = 0; i < Sessions.Length; i++)
+        {
+            if (DateTime.Now > dates[i])
+            {
+                Console.WriteLine($"{Sessions[i]} Past");
+            }
+            else
+            {
+                Console.WriteLine($"{Sessions[i]} Upcoming");
+            }
+        }
+    }
+    static void FindtheNextSession(string[] SessionsNames, DateTime[] dates)
+    {
+        DateTime Now = DateTime.Now;
+        DateTime D1 = Now;
+        string Session = "";
+
+        for (int i = 0; i < SessionsNames.Length; i++)
+        {
+            if (Now > dates[i])
+            {
+                continue;
+            }
+            else if (D1 < dates[i])
+            {
+                D1 = dates[i];
+                Session = SessionsNames[i];
+            }
+        }
+
+        TimeSpan remaining = D1 - Now;
+
+        Console.WriteLine($"The Next Session: {Session}");
+        Console.WriteLine($"{D1.ToString("dd MMMM yyyy")}");
+        Console.WriteLine($"{D1.ToString("hh:mm tt")}");
+        Console.WriteLine($"Time Remaining: {remaining.Days} days {remaining.Hours} hours");
+    }
+   
+    static void DisplaySelectedSession(DateTime selectedDate)
+    {
+        
+
+        Console.WriteLine(selectedDate.ToString("yyyy-MM-dd"));
+        Console.WriteLine(selectedDate.ToString("dd/MM/yyyy"));
+        Console.WriteLine(selectedDate.ToString("dd MMMM yyyy"));
+        Console.WriteLine(selectedDate.ToString("dddd, dd MMMM yyyy hh:mm tt"));
     }
 
 
