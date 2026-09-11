@@ -288,7 +288,7 @@ class Program
     static DateTime? ReadSessionDate()// Method to read a session date from user input
     {
         Console.WriteLine("Enter the session date (dd/MM/yyyy):");
-        string input = Console.ReadLine();
+        string input = Console.ReadLine()!;
         if (DateTime.TryParse(input, out DateTime sessionDate))
         {
             return sessionDate;
@@ -441,7 +441,93 @@ class Program
         Console.WriteLine(selectedDate.ToString("dd MMMM yyyy"));
         Console.WriteLine(selectedDate.ToString("dddd, dd MMMM yyyy hh:mm tt"));
     }
+    static DateTime ReadValidDate()
+    {
+        while (true)
+        {
+            Console.Write("Enter date (yyyy-MM-dd HH:mm): ");
+            string input = Console.ReadLine()!;
 
+            if (DateTime.TryParseExact(
+                input,
+                "yyyy-MM-dd HH:mm",
+                null,
+                System.Globalization.DateTimeStyles.None,
+                out DateTime date))
+            {
+                return date;
+            }
 
+            Console.WriteLine("Invalid date. Try again.");
+        }
+    }
+    static int ReadMenuOption()
+    {
+        while (true)
+        {
+            Console.Write("Choose an option: ");
+
+            try
+            {
+                int option = int.Parse(Console.ReadLine()!);
+                return option;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid menu option. Enter a number.");
+            }
+        }
+    }
+    static void ReadSessionIndex(string[] Sessions)
+    {
+        while (true)
+        {
+            Console.Write("Enter session index: ");
+
+            try
+            {
+                int index = int.Parse(Console.ReadLine()!);
+                Console.WriteLine($"Session: {Sessions[index]}");
+                break;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("The selected session index is out of range.");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Please enter a valid number.");
+            }
+        }
+    }
+    static void ValidateDuration(int duration)
+    {
+        if (duration <= 0)
+        {
+            throw new ArgumentException("Duration must be greater than zero.");
+        }
+
+        Console.WriteLine("Duration accepted.");
+    }
+    static int ReadMenuOptionToTryFinally()
+    {
+        while (true)
+        {
+            try
+            {
+                Console.Write("Choose an option: ");
+                int option = int.Parse(Console.ReadLine()!);
+                return option;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid menu option. Enter a number.");
+            }
+            finally
+            {
+                Console.WriteLine("Input operation finished.");
+            }
+        }
+    }
 
 }
