@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using static System.Collections.Specialized.BitVector32;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using BenchmarkDotNet.Running;
 
 namespace AcademyScheduleAnalyzer;
 class Program
@@ -48,6 +49,8 @@ class Program
 
         DisplayDurationAnalysis(sessionDurations);
         SortSessionDurations(sessionDurations);
+
+        Part21_24_Benchmark();
         
     }
     static void DisplaySchedule(string[] sessionNames, DateTime[] sessionDates, int[] sessionDurations)
@@ -529,5 +532,11 @@ class Program
             }
         }
     }
+    static void Part21_24_Benchmark()//من بارت 21 ل 24
+    {
+        BenchmarkRunner.Run<StringConcatBenchmark>();
+    }
+
+
 
 }
